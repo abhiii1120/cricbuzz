@@ -1,7 +1,11 @@
 import createApp from "./src/app.js";
-
+import env from "./src/config/env.js"
 let app = createApp();
 
-app.listen(3000,() => {
-    console.log("server running on port", 3000);
-})
+function startServer() {
+  app.listen(env.PORT, () => {
+    console.log("server running on port", env.PORT);
+  });
+}
+
+startServer();
