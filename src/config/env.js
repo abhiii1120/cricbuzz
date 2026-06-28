@@ -5,6 +5,7 @@ import logger from "./logger.js";
 
 const envSchema = z.object({
   PORT: z.coerce.number(),
+  MONGO_URL:z.string(),
 });
 
 const { success, data, error } = envSchema.safeParse(process.env);
