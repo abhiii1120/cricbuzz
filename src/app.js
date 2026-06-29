@@ -1,12 +1,15 @@
-import express from 'express';
-import env from './config/env.js'
-import morgan from 'morgan';
-export default function createApp(){
-    const app = express();
+import express from "express";
+import env from "./config/env.js";
+import morgan from "morgan";
+export default function createApp() {
+  const app = express();
 
-    if(env.NODE_ENV === 'development'){
-        app.use(morgan("dev"));
-    }
+  app.use(express.json({ limit: "3mb" }));
+  app.use(express.urlencoded({ extended: true, limit: "3mb" }));
 
-    return app;
+  if (env.NODE_ENV === "development") {
+    app.use(morgan("dev"));
+  }
+
+  return app;
 }
