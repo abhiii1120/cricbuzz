@@ -11,7 +11,11 @@ const envSchema = z.object({
   LOGGER_LEVEL: z.string().default(appConstant.LOGGER_LEVEL),
   CORS_ORIGIN:z.string(),
   RATELIMIT_WINDOWMS:z.coerce.number().default(appConstant.RATELIMIT_WINDOWMS),
-  RATELIMIT:z.coerce.number().default(appConstant.RATELIMIT)
+  RATELIMIT:z.coerce.number().default(appConstant.RATELIMIT),
+  GOOGLE_CLIENT_ID:z.string(),
+  GOOGLE_CLIENT_SECRET:z.string(),
+  GOOGLE_CALLBACK_URL:z.string(),
+  JWT_SECRET:z.string(),
 });
 
 const { success, data, error } = envSchema.safeParse(process.env);
