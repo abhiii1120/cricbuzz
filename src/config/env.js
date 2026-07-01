@@ -9,13 +9,16 @@ const envSchema = z.object({
   MONGO_URL: z.string().default(appConstant.MONGO_URL),
   NODE_ENV: z.string().default(appConstant.NODE_ENV),
   LOGGER_LEVEL: z.string().default(appConstant.LOGGER_LEVEL),
-  CORS_ORIGIN:z.string(),
-  RATELIMIT_WINDOWMS:z.coerce.number().default(appConstant.RATELIMIT_WINDOWMS),
-  RATELIMIT:z.coerce.number().default(appConstant.RATELIMIT),
-  GOOGLE_CLIENT_ID:z.string(),
-  GOOGLE_CLIENT_SECRET:z.string(),
-  GOOGLE_CALLBACK_URL:z.string(),
-  JWT_SECRET:z.string(),
+  CORS_ORIGIN: z.string(),
+  RATELIMIT_WINDOWMS: z.coerce.number().default(appConstant.RATELIMIT_WINDOWMS),
+  RATELIMIT: z.coerce.number().default(appConstant.RATELIMIT),
+  GOOGLE_CLIENT_ID: z.string(),
+  GOOGLE_CLIENT_SECRET: z.string(),
+  GOOGLE_CALLBACK_URL: z.string(),
+  JWT_SECRET: z.string(),
+  REFRESH_TOKEN_SECRET: z.string(),
+  ACCESS_TOKEN_SECRET: z.string(),
+  REDIRECT_URL: z.string(),
 });
 
 const { success, data, error } = envSchema.safeParse(process.env);
