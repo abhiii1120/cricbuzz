@@ -7,14 +7,14 @@ export default class AuthService {
   }
 
   async CreateUser(user) {
-    const isUser = await this.UserRepo.findByEmail(user.email[0].value);
+    const isUser = await this.UserRepo.findByEmail(user.emails[0].value);
     let result = isUser;
 
     if (!isUser) {
       const _user = await this.UserRepo.create({
         email: user.emails[0].value,
         picture: user.photos[0].value,
-        email: user.displayName,
+        name: user.displayName,
       });
       result = _user;
     }
