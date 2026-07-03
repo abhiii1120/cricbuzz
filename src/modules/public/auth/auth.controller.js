@@ -1,9 +1,14 @@
 import AuthService from "./auth.service.js";
 import env from '../../config/env.js'
 import { app_config } from "../../constant/app.constant.js";
+import UnAuthorize from "../../shared/error/unAuthorize.error.js";
 export default class AuthController {
   constructor() {
     this.AuthService = new AuthService();
+  }
+
+  async getMe(){
+    throw new UnAuthorize("user not authorize");
   }
 
   async GoogleCallback(req, res) {
