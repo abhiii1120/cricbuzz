@@ -1,9 +1,24 @@
-import UserRepo from "../../repository/user.repository.js";
 import jwt from "jsonwebtoken";
-import env from "../../config/env.js";
+import UserRepo from "../../../repository/user.repository.js";
+import env from "../../../config/env.js";
+import AppError from "../../../shared/error/app.error.js";
+import { StatusCodes } from "http-status-codes";
+import { token } from "morgan";
 export default class AuthService {
   constructor() {
     this.UserRepo = new UserRepo();
+  }
+
+  signTokens(data) {
+    let refreshToken = jwt.sign(data, env.REFRESH_TOKEN_SECRET, {
+      expiresIn: "30D",
+    });
+
+    let accessToken = jwt.sign(data, env.ACCESS_TOKEN_SECRET, {
+      expiresIn: "1H",
+    });
+
+    return {accessToken,refreshToken}
   }
 
   async CreateUser(user) {
@@ -26,14 +41,35 @@ export default class AuthService {
       name: user.displayName,
     };
 
-    let refreshToken = jwt.sign(data, env.REFRESH_TOKEN_SECRET, {
-      expiresIn: "30D",
-    });
+   let tokens = this.signTokens(data);
 
-    let accessToken = jwt.sign(data, env.ACCESS_TOKEN_SECRET, {
-      expiresIn: "1H",
-    });
+   return token;
+  }
 
-    return { accessToken, refreshToken };
+  async registerUser(payload) {
+    let user = {
+      ...payload,
+      email: payload.email.toLowerCase(),
+    };
+
+    const existingUser = await this.UserRepo.findByEmail(user.email);
+
+    if (existingUser) {
+      throw new AppError("user already exists", StatusCodes.CONFLICT);
+    }
+
+    const newUser = await this.UserRepo.create(user);
+
+    const tokenPayload = {
+      _id:newUser._id,
+      email:user.email,
+      name:user.name,
+      picture:user.picture,
+      role:user.role,
+    }
+
+    const tokens = this.signTokens(tokenPayload);
+
+    return {...tokens , user:tokenPayload}
   }
 }
