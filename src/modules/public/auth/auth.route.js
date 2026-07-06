@@ -1,6 +1,7 @@
 import express from "express";
 import AuthController from "./auth.controller.js";
 import passport from "passport";
+import { asyncHandler } from "../../../shared/error/asyncHandler.js";
 
 let router = express.Router();
 let authController = new AuthController();
@@ -16,9 +17,9 @@ router.get(
 router.get(
   "/google/callback",
   passport.authenticate("google", { session: false }),
-  authController.GoogleCallback.bind(authController),
+  asyncHandler(authController.GoogleCallback.bind(authController)),
 );
 
-router.get("/me",authController.getMe.bind(authController));
+router.get("/me",asyncHandler(authController.getMe.bind(authController)));
 
 export default router;

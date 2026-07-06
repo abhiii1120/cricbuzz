@@ -1,5 +1,5 @@
-import AppError from "./app.error.js";
 import {StatusCodes} from 'http-status-codes'
+import AppError from './app.error.js'
 
 export default class UnAuthorize extends AppError {
     constructor(message,details=''){
