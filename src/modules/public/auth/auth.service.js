@@ -4,6 +4,7 @@ import env from "../../../config/env.js";
 import AppError from "../../../shared/error/app.error.js";
 import { StatusCodes } from "http-status-codes";
 import { token } from "morgan";
+import notFound from "../../../shared/error/notFound.error.js";
 export default class AuthService {
   constructor() {
     this.UserRepo = new UserRepo();
@@ -18,7 +19,7 @@ export default class AuthService {
       expiresIn: "1H",
     });
 
-    return {accessToken,refreshToken}
+    return { accessToken, refreshToken };
   }
 
   async CreateUser(user) {
@@ -41,9 +42,9 @@ export default class AuthService {
       name: user.displayName,
     };
 
-   let tokens = this.signTokens(data);
+    let tokens = this.signTokens(data);
 
-   return token;
+    return token;
   }
 
   async registerUser(payload) {
@@ -61,15 +62,25 @@ export default class AuthService {
     const newUser = await this.UserRepo.create(user);
 
     const tokenPayload = {
-      _id:newUser._id,
-      email:user.email,
-      name:user.name,
-      picture:user.picture,
-      role:user.role,
-    }
+      _id: newUser._id,
+      email: user.email,
+      name: user.name,
+      picture: user.picture,
+      role: user.role,
+    };
 
     const tokens = this.signTokens(tokenPayload);
 
-    return {...tokens , user:tokenPayload}
+    return { ...tokens, user: tokenPayload };
+  }
+
+  async refreshAccessToken(refreshToken) {
+    if (!refreshToken) throw new notFound("Refresh token not found");
+
+    const payload = jwt.verify(refreshToken, env.REFRESH_TOKEN_SECRET);
+
+    const accessToken = jwt.sign(payload, env.ACCESS_TOKEN_SECRET);
+
+    return { accessToken };
   }
 }

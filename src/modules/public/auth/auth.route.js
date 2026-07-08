@@ -29,4 +29,9 @@ router.post(
   asyncHandler(authController.registerController.bind(authController)),
 );
 
+router.get(
+  "/refreshToken",
+  asyncHandler(authController.refreshAccessToken.bind(authController)),
+);
+
 export default router;
