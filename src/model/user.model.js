@@ -1,5 +1,4 @@
 import { Schema, model } from "mongoose";
-import { lowercase, string } from "zod";
 import { ROLES } from "../constant/model.constant.js";
 
 const userSchema = new Schema(

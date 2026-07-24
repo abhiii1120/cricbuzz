@@ -2,13 +2,20 @@ import createApp from "./src/app.js";
 import env from "./src/config/env.js";
 import logger from "./src/config/logger.js";
 import { connectDB } from "./src/database/db.js";
+import http from 'http';
+import {Server} from "socket.io";
+import { initSocket } from "./src/socket/socket.js";
 
 let app = createApp();
+const HttpServer = http.createServer(app);
+const io = new Server(HttpServer)
+
+initSocket(io);
 
 function startServer() {
   connectDB()
     .then(() => {
-      app.listen(env.PORT, () => {
+      HttpServer.listen(env.PORT, () => {
         logger.info({ port: env.PORT }, "server running on port");
       });
     })
