@@ -5,6 +5,7 @@ import AppError from "../../../shared/error/app.error.js";
 import { StatusCodes } from "http-status-codes";
 import { token } from "morgan";
 import notFound from "../../../shared/error/notFound.error.js";
+import UnAuthorize from "../../../shared/error/unAuthorize.error.js";
 export default class AuthService {
   constructor() {
     this.UserRepo = new UserRepo();
@@ -20,6 +21,15 @@ export default class AuthService {
     });
 
     return { accessToken, refreshToken };
+  }
+
+  tokenPayload(data){
+    return {
+      _id:String(data._id),
+      email:data.email,
+      name:data.name,
+      role:data.role,
+    }
   }
 
   async CreateUser(user) {
@@ -61,17 +71,30 @@ export default class AuthService {
 
     const newUser = await this.UserRepo.create(user);
 
-    const tokenPayload = {
-      _id: newUser._id,
-      email: user.email,
-      name: user.name,
-      picture: user.picture,
-      role: user.role,
-    };
+    const tokenPayload = this.tokenPayload(newUser);
 
     const tokens = this.signTokens(tokenPayload);
 
     return { ...tokens, user: tokenPayload };
+  }
+
+  async LoginService(payload){
+    let email = payload.email.toLowerCase();
+
+    const user = await this.UserRepo.findByEmail(email);
+
+    if(!user)  throw new notFound("User with this email not found");
+
+    if(!user.password) throw new notFound("This account is not enabled for password login");
+
+    let isMatch = await user.comparePassword(payload.password);
+
+    if(isMatch) throw new UnAuthorize("Password doesn't match");
+
+    const tokenPayload = this.tokenPayload(user);
+    const tokens = this.signTokens(tokenPayload);
+
+    return {...tokens , user:tokenPayload}
   }
 
   async refreshAccessToken(refreshToken) {

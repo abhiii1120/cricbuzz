@@ -6,13 +6,14 @@ import { setAuthCookies } from "../../../shared/utils/authCookies.js";
 import { StatusCodes } from "http-status-codes";
 import notFound from "../../../shared/error/notFound.error.js";
 import { buildSuccessResponse } from "../../../shared/error/buildSuccessResponse.js";
+import { success } from "zod";
 export default class AuthController {
   constructor() {
     this.AuthService = new AuthService();
   }
 
-  async getMe(req,res) {
-    return buildSuccessResponse(res,"user verified", req.user);
+  async getMe(req, res) {
+    return buildSuccessResponse(res, "user verified", req.user);
   }
 
   async GoogleCallback(req, res) {
@@ -41,12 +42,25 @@ export default class AuthController {
     });
   }
 
+  async loginController(req, res) {
+    const userData = req.validated.body;
+    const { accessToken, refreshToken, user } =
+      await this.AuthService.LoginService(userData);
+
+    setAuthCookies(res, accessToken, refreshToken);
+    return res.status(StatusCodes.OK).json({
+      success: true,
+      message: "User login successfully",
+      data: user,
+    });
+  }
+
   async refreshAccessToken(req, res) {
     const { accessToken } = this.AuthService.refreshAccessToken(
       req.cookies.refreshToken,
     );
 
     res.cookie("accessToken", accessToken, app_config.cookie.accessToken);
-    return buildSuccessResponse(res)
+    return buildSuccessResponse(res);
   }
 }

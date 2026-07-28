@@ -6,7 +6,7 @@ export default class UserRepo {
   }
 
   async findByEmail(email) {
-    return await userModel.findOne({ email }).lean();
+    return await userModel.findOne({ email });
   }
 
   async findbyId(id) {
