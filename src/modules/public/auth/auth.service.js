@@ -106,4 +106,12 @@ export default class AuthService {
 
     return { accessToken };
   }
+
+  async getMe(accessToken){
+    if(!accessToken) throw new notFound("Access token not found");
+
+    const user = jwt.verify(accessToken,env.ACCESS_TOKEN_SECRET);
+
+    return {user};
+  }
 }
