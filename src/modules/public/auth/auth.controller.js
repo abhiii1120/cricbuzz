@@ -13,7 +13,8 @@ export default class AuthController {
   }
 
   async getMe(req, res) {
-    return buildSuccessResponse(res, "user verified", req.user);
+    const {user} = await this.AuthService.getMe(req.cookies.accessToken);
+    return buildSuccessResponse(res,'user verified',StatusCodes.OK,user);
   }
 
   async GoogleCallback(req, res) {
