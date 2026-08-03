@@ -13,8 +13,8 @@ export default class AuthController {
   }
 
   async getMe(req, res) {
-    const {user} = await this.AuthService.getMe(req.cookies.accessToken);
-    return buildSuccessResponse(res,'user verified',StatusCodes.OK,user);
+    const { user } = await this.AuthService.getMe(req.cookies.accessToken);
+    return buildSuccessResponse(res, "user verified", StatusCodes.OK, user);
   }
 
   async GoogleCallback(req, res) {
@@ -24,7 +24,7 @@ export default class AuthController {
 
     res.cookie("refreshToken", refreshToken, app_config.cookie.refreshToken);
 
-    res.cookie("accessToken", refreshToken, app_config.cookie.accessToken);
+    res.cookie("accessToken", accessToken, app_config.cookie.accessToken);
 
     res.redirect(env.REDIRECT_URL);
   }
@@ -57,7 +57,7 @@ export default class AuthController {
   }
 
   async refreshAccessToken(req, res) {
-    const { accessToken } = this.AuthService.refreshAccessToken(
+    const { accessToken } = await this.AuthService.refreshAccessToken(
       req.cookies.refreshToken,
     );
 

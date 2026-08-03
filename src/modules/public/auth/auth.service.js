@@ -52,7 +52,7 @@ export default class AuthService {
       name: user.displayName,
     };
 
-    let tokens = this.signTokens(data);
+    let token = this.signTokens(data);
 
     return token;
   }
@@ -98,7 +98,7 @@ export default class AuthService {
   }
 
   async refreshAccessToken(refreshToken) {
-    if (!refreshToken) throw new notFound("Refresh token not found");
+    if (!refreshToken) throw new UnAuthorize("Refresh token not found");
 
     const payload = jwt.verify(refreshToken, env.REFRESH_TOKEN_SECRET);
 
@@ -108,7 +108,7 @@ export default class AuthService {
   }
 
   async getMe(accessToken){
-    if(!accessToken) throw new notFound("Access token not found");
+    if(!accessToken) throw new UnAuthorize("Access token not found");
 
     const user = jwt.verify(accessToken,env.ACCESS_TOKEN_SECRET);
 
