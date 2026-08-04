@@ -8,7 +8,12 @@ import { initSocket } from "./src/socket/socket.js";
 
 let app = createApp();
 const HttpServer = http.createServer(app);
-const io = new Server(HttpServer)
+const io = new Server(HttpServer,{
+  cors:{
+    origin:env.CORS_ORIGIN.split(',').map((origin) => origin.trim()),
+    methods:["GET","POST"],
+  }
+});
 
 initSocket(io);
 
