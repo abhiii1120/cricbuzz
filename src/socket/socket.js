@@ -7,6 +7,10 @@ export function initSocket(io){
 
     io.on('connection',(socket) => {
         logger.info('a user connnected');
-        socket.emit("connected")
+        socket.emit("connected");
+
+        socket.on("client:connected",(data) => {
+            logger.info(data)
+        })
     })
 }
