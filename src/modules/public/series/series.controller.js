@@ -1,5 +1,5 @@
 import { SeriesService } from "./series.service.js";
-import { buildSuccessResponse } from "../../../shared/utils/buildSuccessResponse.js"
+import { buildSuccessResponse } from "../../../shared/error/buildSuccessResponse.js";
 
 export class SeriesController {
   constructor () {

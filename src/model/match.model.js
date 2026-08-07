@@ -1,4 +1,5 @@
-import { Schema } from "mongoose";
+import { model, Schema } from "mongoose";
+import { MATCH_STATUS, TOSS_DECESSION } from "../constant/model.constant.js";
 
 const playingPLayerSchema = new Schema(
   {
@@ -40,8 +41,8 @@ const matchSchema = new Schema({
   tossWinner: { type: Schema.Types.ObjectId, ref: "Team" },
   tossDecision: { type: String, enum: Object.values(TOSS_DECESSION) },
   playingXI: {
-    team1: [playingPlayerSchema],
-    team2: [playingPlayerSchema],
+    team1: [playingPLayerSchema],
+    team2: [playingPLayerSchema],
   },
   winner: { type: Schema.Types.ObjectId, ref: "Team" },
   result: String,

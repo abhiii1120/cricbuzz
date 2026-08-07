@@ -1,6 +1,6 @@
 import express from "express";
 import { SeriesController } from "./series.controller.js";
-import  { asyncHandler } from "../../../shared/utils/asyncHandler.js"
+import { asyncHandler } from "../../../shared/error/asyncHandler.js";
 
 const router =  express.Router();
 const seriesController = new SeriesController();

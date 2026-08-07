@@ -1,6 +1,6 @@
 import express from "express";
 import { ScoreController } from "./score.controller.js";
-import { asyncHandler } from "../../../shared/utils/asyncHandler.js"
+import { asyncHandler } from "../../../shared/error/asyncHandler.js";
 
 const router = express();
 const scoreController = new ScoreController();

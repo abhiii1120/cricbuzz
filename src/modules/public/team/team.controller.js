@@ -1,5 +1,5 @@
 import { TeamService } from "./team.service.js"
-import { buildSuccessResponse } from "../../../shared/utils/buildSuccessResponse.js"
+import { buildSuccessResponse } from "../../../shared/error/buildSuccessResponse.js";
 
 export class TeamController {
   constructor () {
