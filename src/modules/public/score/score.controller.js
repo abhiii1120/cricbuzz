@@ -1,4 +1,4 @@
-import { buildSuccessResponse } from "../../../shared/utils/buildSuccessResponse.js";
+import { buildSuccessResponse } from "../../../shared/error/buildSuccessResponse.js";
 import { ScoreService } from "./score.service.js";
 
 export class ScoreController {

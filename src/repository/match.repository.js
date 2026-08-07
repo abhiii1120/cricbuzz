@@ -1,4 +1,4 @@
-import matchModel from "../model/match.model";
+import matchModel from "../model/match.model.js"
 
 export class MatchRepo {
   async findAll(id) {

@@ -1,8 +1,8 @@
-import { matchRepo } from "../../../repository/match.repository.js";
+import { MatchRepo } from "../../../repository/match.repository.js";
 
 export class MatchService {
   constructor() {
-    this.matchRepo = new this.matchRepo();
+    this.matchRepo = new MatchRepo();
   }
 
   async getMatches() {

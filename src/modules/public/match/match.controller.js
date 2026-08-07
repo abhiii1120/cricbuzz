@@ -1,4 +1,4 @@
-import { buildSuccessResponse } from "../../../shared/utils/buildSuccessResponse.js";
+import { buildSuccessResponse } from "../../../shared/error/buildSuccessResponse.js";
 import { MatchService } from "./match.service.js";
 
 export class MatchController {

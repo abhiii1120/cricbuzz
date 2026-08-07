@@ -34,7 +34,7 @@ const teamSchema = new Schema(
       ref: "User",
     },
     updatedBy: {
-      types: Schema.types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User",
     },
   },
