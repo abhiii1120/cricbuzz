@@ -1,3 +1,4 @@
+import { StatusCodes } from "http-status-codes";
 import { buildSuccessResponse } from "../../../shared/error/buildSuccessResponse.js";
 import { ScoreService } from "./score.service.js";
 
@@ -7,6 +8,6 @@ export class ScoreController {
   }
 
   async getScoreByMatchId(req, res) {
-    return buildSuccessResponse(res, `Score Retrived by match_id: ${req.params.match_id}`, await this.scoreService.getScoreByMatchId(req.params.match_id))
+    return buildSuccessResponse(res, `Score Retrived by match_id: ${req.params.match_id}`, StatusCodes.OK, await this.scoreService.getScoreByMatchId(req.params.match_id))
   }
 }

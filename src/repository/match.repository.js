@@ -9,8 +9,8 @@ export class MatchRepo {
     .populate("tossWinner","name shortName logo")
   }
 
-  async findbyId(id){
-    return MatchRepo.findOne({
+  async findById(id){
+    return matchModel.findOne({
         _id:id,
         isDeleted:false,
     })
@@ -26,7 +26,5 @@ export class MatchRepo {
         path:"playingXI.team2.player",
         select:"name role image",
     })
+  }
 }
-}
-
-
