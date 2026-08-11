@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import { PLAYER_ROLES } from "../constant/model.constant.js";
 
 const playerSchema = new Schema(
   {
@@ -9,6 +10,11 @@ const playerSchema = new Schema(
     },
     image: {
       type: String,
+    },
+     role: {
+      type: String,
+      enum: Object.values(PLAYER_ROLES),
+      required: true,
     },
     country: {
       type: String,
